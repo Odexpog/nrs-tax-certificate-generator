@@ -90,7 +90,7 @@ code, pre {
 .margin-top-md { margin-top: 1.25rem; }
 
 /* ==========================================================================
-   HEADER & NAVIGATION (SLEEK UNIFORM HORIZONTAL LINE)
+   HEADER & NAVIGATION (PERFECT 1:1 PIXEL ALIGNMENT WITH MAIN CONTENT)
    ========================================================================== */
 
 .app-header {
@@ -100,12 +100,13 @@ code, pre {
   background: rgba(7, 15, 24, 0.95);
   backdrop-filter: var(--backdrop-blur);
   border-bottom: 1px solid var(--border-card);
-  padding: 0.65rem 1.5rem;
+  padding: 0.65rem 0;
 }
 
 .header-container {
   max-width: 1400px;
   margin: 0 auto;
+  padding: 0 1.5rem; /* Matches app-main-content 1.5rem padding */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1122,8 +1123,25 @@ body.light-theme .app-footer {
 .text-center { text-align: center; }
 
 /* Footer & Toast */
-.app-footer { border-top: 1px solid var(--border-card); padding: 1.25rem 1.5rem; background: rgba(7, 15, 24, 0.95); font-size: 0.82rem; color: var(--text-muted); margin-top: auto; }
-.footer-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.app-footer {
+  border-top: 1px solid var(--border-card);
+  padding: 1.25rem 0;
+  background: rgba(7, 15, 24, 0.95);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
 .footer-attribution a { color: #FCA5A5; text-decoration: none; }
 .footer-attribution a:hover { text-decoration: underline; }
 
