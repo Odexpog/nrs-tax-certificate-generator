@@ -6,13 +6,13 @@
 /* >> We are a creative agency helping ambitious brands build the clarity, structure, and digital experiences required to scale.<< */
 
 /**
- * NRS TaxID Live API Integration Module
- * Universal Domain Edition: Automatically uses server proxy (/api/resolve)
- * when hosted on custom domains to guarantee 100% CORS & HTTP 401 bypass!
+ * NRS TaxID Universal Live API Module
+ * Compatible with Node.js, Vercel Serverless, and cPanel (PHP) Shared Hosting!
  */
 
-const LOCAL_PROXY_ENDPOINT = '/api/resolve';
-const DIRECT_NRS_ENDPOINT = 'https://taxid.jrb.gov.ng/v1/resolve';
+const ENDPOINT_LOCAL = '/api/resolve';
+const ENDPOINT_PHP = 'api/resolve.php';
+const ENDPOINT_DIRECT = 'https://taxid.jrb.gov.ng/v1/resolve';
 const REQUEST_TIMEOUT_MS = 12000;
 
 // Numeric Type Mapping: 1=BN, 2=Company, 3=IT, 4=LP, 5=LLP
@@ -41,31 +41,43 @@ class NRSTaxAPI {
       rc: cleanRc
     };
 
-    // Determine target endpoint (prefers server proxy /api/resolve if deployed)
-    const targetEndpoint = window.location.origin.includes('localhost') || window.location.origin.includes('http')
-      ? LOCAL_PROXY_ENDPOINT
-      : DIRECT_NRS_ENDPOINT;
-
-    console.log('[UNIVERSAL LIVE API] Requesting:', targetEndpoint, apiPayload);
+    console.log('[UNIVERSAL LIVE API] Resolving CAC Record:', apiPayload);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
 
     try {
-      let response = await fetch(targetEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(apiPayload),
-        signal: controller.signal
-      });
+      let response;
+      
+      // 1. Try Vercel / Node local proxy /api/resolve
+      try {
+        response = await fetch(ENDPOINT_LOCAL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(apiPayload),
+          signal: controller.signal
+        });
+      } catch (err) {
+        console.log('[UNIVERSAL LIVE API] Node/Vercel proxy unavailable, attempting PHP proxy...');
+      }
 
-      // If server proxy is not deployed and direct fetch returned 404/401 on direct endpoint, try direct
-      if (!response.ok && targetEndpoint === LOCAL_PROXY_ENDPOINT) {
-        console.log('[UNIVERSAL LIVE API] Proxy unavailable, trying direct NRS endpoint...');
-        response = await fetch(DIRECT_NRS_ENDPOINT, {
+      // 2. If 404 or failed, try cPanel PHP proxy (api/resolve.php)
+      if (!response || !response.ok) {
+        try {
+          response = await fetch(ENDPOINT_PHP, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(apiPayload),
+            signal: controller.signal
+          });
+        } catch (err) {
+          console.log('[UNIVERSAL LIVE API] PHP proxy unavailable, attempting direct endpoint...');
+        }
+      }
+
+      // 3. Fallback to direct NRS endpoint
+      if (!response || !response.ok) {
+        response = await fetch(ENDPOINT_DIRECT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(apiPayload)
@@ -73,8 +85,8 @@ class NRSTaxAPI {
       }
 
       clearTimeout(timeoutId);
-      const statusCode = response.status;
-      let json;
+      const statusCode = response ? response.status : 0;
+      let json = {};
       
       try {
         json = await response.json();
@@ -84,7 +96,7 @@ class NRSTaxAPI {
 
       console.log(`[UNIVERSAL LIVE API] Response Status ${statusCode}:`, json);
 
-      if (response.ok && json.success && json.data) {
+      if (response && response.ok && json.success && json.data) {
         return {
           success: true,
           statusCode,
@@ -164,29 +176,27 @@ class NRSTaxAPI {
    */
   static async resolveByNIN(payload) {
     const apiPayload = { shareCode: payload.shareCode };
-    const targetEndpoint = LOCAL_PROXY_ENDPOINT;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-
     try {
-      const response = await fetch(targetEndpoint, {
+      let response = await fetch(ENDPOINT_LOCAL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiPayload),
-        signal: controller.signal
-      });
+        body: JSON.stringify(apiPayload)
+      }).catch(() => null);
 
-      clearTimeout(timeoutId);
-      const statusCode = response.status;
-      const json = await response.json().catch(() => ({ message: 'Error' }));
-
-      if (response.ok && json.success && json.data) {
-        return { success: true, statusCode, data: json, payload: apiPayload };
+      if (!response || !response.ok) {
+        response = await fetch(ENDPOINT_PHP, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(apiPayload)
+        }).catch(() => null);
       }
-      return { success: false, statusCode, error: json.message || 'NIN Not Found', data: json, payload: apiPayload };
+
+      const json = response ? await response.json().catch(() => ({ message: 'Error' })) : {};
+      if (response && response.ok && json.success && json.data) {
+        return { success: true, statusCode: response.status, data: json, payload: apiPayload };
+      }
+      return { success: false, statusCode: response ? response.status : 0, error: json.message || 'NIN Not Found', data: json, payload: apiPayload };
     } catch (err) {
-      clearTimeout(timeoutId);
       return { success: false, statusCode: 0, error: err.message, data: { error: err.message }, payload: apiPayload };
     }
   }
@@ -196,20 +206,26 @@ class NRSTaxAPI {
    */
   static async resolveMDA(payload) {
     const apiPayload = { source: payload.source || 'fed_mda', company_number: payload.company_number };
-
     try {
-      const response = await fetch(LOCAL_PROXY_ENDPOINT, {
+      let response = await fetch(ENDPOINT_LOCAL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiPayload)
-      });
-      const statusCode = response.status;
-      const json = await response.json().catch(() => ({ message: 'Error' }));
+      }).catch(() => null);
 
-      if (response.ok && json.success && json.data) {
-        return { success: true, statusCode, data: json, payload: apiPayload };
+      if (!response || !response.ok) {
+        response = await fetch(ENDPOINT_PHP, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(apiPayload)
+        }).catch(() => null);
       }
-      return { success: false, statusCode, error: json.message || 'MDA Not Found', data: json, payload: apiPayload };
+
+      const json = response ? await response.json().catch(() => ({ message: 'Error' })) : {};
+      if (response && response.ok && json.success && json.data) {
+        return { success: true, statusCode: response.status, data: json, payload: apiPayload };
+      }
+      return { success: false, statusCode: response ? response.status : 0, error: json.message || 'MDA Not Found', data: json, payload: apiPayload };
     } catch (err) {
       return { success: false, statusCode: 0, error: err.message, data: { error: err.message }, payload: apiPayload };
     }
