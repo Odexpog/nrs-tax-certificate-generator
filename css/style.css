@@ -1,7 +1,7 @@
 /* TEAM */
 /* Developer: Dorocreate */
 /* Site: https://dorocreate.com.ng */
-/* Twitter: @dorocreate */
+/* Instagram: @dorocreate */
 /* Location: Nigeria */
 /* >> We are a creative agency helping ambitious brands build the clarity, structure, and digital experiences required to scale.<< */
 
@@ -197,11 +197,6 @@ code, pre {
 
 .btn-icon-theme:hover {
   background: rgba(255, 255, 255, 0.15);
-}
-
-@media (max-width: 768px) {
-  .nav-btn span { display: none; }
-  .nav-btn { padding: 0.5rem 0.75rem; }
 }
 
 /* ==========================================================================
@@ -606,56 +601,6 @@ code, pre {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.25rem;
-}
-
-@media (max-width: 1024px) {
-  .homepage-features-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 640px) {
-  .homepage-features-grid { grid-template-columns: 1fr; }
-}
-
-.feature-card {
-  background: var(--bg-card);
-  backdrop-filter: var(--backdrop-blur);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  transition: var(--transition);
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--color-nrs-red);
-  box-shadow: 0 12px 25px rgba(200, 59, 31, 0.25);
-}
-
-.feature-icon {
-  width: 42px;
-  height: 42px;
-  background: rgba(200, 59, 31, 0.15);
-  border: 1px solid var(--color-nrs-red);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FCA5A5;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-.feature-title {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 0.4rem;
-}
-
-.feature-desc {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  line-height: 1.5;
 }
 
 /* ==========================================================================
@@ -1148,6 +1093,234 @@ body.light-theme .app-footer {
 @keyframes slideInRight {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   MOBILE & RESPONSIVE DESIGN (320px - 768px PHONE VIEWPORTS)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0.5rem 0;
+  }
+
+  .header-container {
+    padding: 0 0.85rem;
+  }
+
+  .header-nrs-logo {
+    height: 28px;
+  }
+
+  .header-nav {
+    gap: 0.2rem;
+    padding: 0.2rem;
+  }
+
+  .nav-btn {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .nav-btn i {
+    font-size: 0.85rem;
+  }
+
+  .homepage-hero-banner {
+    padding: 1.75rem 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .hero-title {
+    font-size: 1.55rem;
+    line-height: 1.25;
+  }
+
+  .hero-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-stats-row {
+    flex-direction: row;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .stat-number {
+    font-size: 1.15rem;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    text-align: center;
+  }
+
+  .grid-layout-2col {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .glass-card {
+    padding: 1.25rem;
+  }
+
+  .resolution-tabs {
+    flex-direction: row;
+    gap: 0.25rem;
+  }
+
+  .res-tab-btn {
+    padding: 0.55rem 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  .res-tab-btn i {
+    font-size: 0.8rem;
+  }
+
+  .form-row-2col {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .form-input, .form-select {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .input-wrapper .form-input {
+    padding-left: 2.4rem;
+  }
+
+  .input-icon {
+    left: 0.85rem;
+    font-size: 0.85rem;
+  }
+
+  .btn-lg {
+    padding: 0.8rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  .consent-checkbox-wrapper {
+    font-size: 0.76rem;
+  }
+
+  /* Certificate Mobile Toolbar & Scrollable Container */
+  .cert-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+
+  .toolbar-left, .toolbar-right {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .toolbar-right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.4rem;
+  }
+
+  .toolbar-right .btn {
+    padding: 0.5rem 0.35rem;
+    font-size: 0.75rem;
+    justify-content: center;
+  }
+
+  .certificate-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .official-certificate-landscape {
+    min-width: 660px;
+    padding: 1.5rem 1.75rem 0;
+  }
+
+  .nrs-cert-red-footer {
+    margin: 0 -1.75rem;
+    font-size: 0.65rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .nrs-cert-red-banner {
+    padding: 0.65rem 1rem;
+  }
+
+  .nrs-banner-title {
+    font-size: 1.35rem;
+  }
+
+  .nrs-banner-subtitle {
+    font-size: 0.82rem;
+  }
+
+  .nrs-field-label, .nrs-field-value {
+    font-size: 0.95rem;
+  }
+
+  .taxpayer-name-highlight {
+    font-size: 1.05rem;
+  }
+
+  .tax-id-highlight {
+    font-size: 1.25rem;
+  }
+
+  .nrs-qr-red-box {
+    width: 160px;
+    height: 160px;
+    padding: 12px;
+  }
+
+  .homepage-features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.0rem;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-btn span {
+    display: inline-block;
+    font-size: 0.72rem;
+  }
+
+  .hero-stats-row {
+    padding: 0.6rem;
+  }
+
+  .stat-number {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.62rem;
+  }
+
+  .res-tab-btn span {
+    font-size: 0.7rem;
+  }
 }
 
 @media print {
