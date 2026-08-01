@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$(pwd)
+    - /bin/chmod 755 .
+    - /bin/chmod 755 api assets assets/svg css js
+    - /bin/chmod 644 index.html .htaccess vercel.json server.js api/* css/* js/* assets/svg/*
