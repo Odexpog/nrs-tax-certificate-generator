@@ -1,3 +1,11 @@
-node_modules/
+# Ignore zip archives
+*.zip
+*.tar.gz
+
+# System files
 .DS_Store
+Thumbs.db
+
+# Logs & Node
 *.log
+node_modules/
