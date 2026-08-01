@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase ./
+  
+  # Route /api/resolve to api/resolve.php within any subfolder or root domain
+  RewriteRule ^api/resolve$ api/resolve.php [L,QSA]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Prevent MIME type errors for SVG assets
+  AddType image/svg+xml .svg .svgz
+</IfModule>

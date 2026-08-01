@@ -1,16 +1,16 @@
 /* TEAM */
 /* Developer: Dorocreate */
 /* Site: https://dorocreate.com.ng */
-/* Twitter: @dorocreate */
+/* Instagram: @dorocreate */
 /* Location: Nigeria */
 /* >> We are a creative agency helping ambitious brands build the clarity, structure, and digital experiences required to scale.<< */
 
 /**
  * NRS TaxID Universal Live API Module
- * Compatible with Node.js, Vercel Serverless, and cPanel (PHP) Shared Hosting!
+ * Compatible with Subdirectories (Non-Root cPanel), Vercel, and Node.js!
  */
 
-const ENDPOINT_LOCAL = '/api/resolve';
+const ENDPOINT_LOCAL = 'api/resolve';
 const ENDPOINT_PHP = 'api/resolve.php';
 const ENDPOINT_DIRECT = 'https://taxid.jrb.gov.ng/v1/resolve';
 const REQUEST_TIMEOUT_MS = 12000;
@@ -49,29 +49,29 @@ class NRSTaxAPI {
     try {
       let response;
       
-      // 1. Try Vercel / Node local proxy /api/resolve
+      // 1. Try relative PHP proxy first on cPanel / subdirectories (api/resolve.php)
       try {
-        response = await fetch(ENDPOINT_LOCAL, {
+        response = await fetch(ENDPOINT_PHP, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(apiPayload),
           signal: controller.signal
         });
       } catch (err) {
-        console.log('[UNIVERSAL LIVE API] Node/Vercel proxy unavailable, attempting PHP proxy...');
+        console.log('[UNIVERSAL LIVE API] PHP proxy unavailable, attempting Vercel/Node endpoint...');
       }
 
-      // 2. If 404 or failed, try cPanel PHP proxy (api/resolve.php)
+      // 2. Try Vercel / Node local proxy (api/resolve)
       if (!response || !response.ok) {
         try {
-          response = await fetch(ENDPOINT_PHP, {
+          response = await fetch(ENDPOINT_LOCAL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify(apiPayload),
             signal: controller.signal
           });
         } catch (err) {
-          console.log('[UNIVERSAL LIVE API] PHP proxy unavailable, attempting direct endpoint...');
+          console.log('[UNIVERSAL LIVE API] Node/Vercel proxy unavailable, attempting direct endpoint...');
         }
       }
 
@@ -177,14 +177,14 @@ class NRSTaxAPI {
   static async resolveByNIN(payload) {
     const apiPayload = { shareCode: payload.shareCode };
     try {
-      let response = await fetch(ENDPOINT_LOCAL, {
+      let response = await fetch(ENDPOINT_PHP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiPayload)
       }).catch(() => null);
 
       if (!response || !response.ok) {
-        response = await fetch(ENDPOINT_PHP, {
+        response = await fetch(ENDPOINT_LOCAL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(apiPayload)
@@ -207,14 +207,14 @@ class NRSTaxAPI {
   static async resolveMDA(payload) {
     const apiPayload = { source: payload.source || 'fed_mda', company_number: payload.company_number };
     try {
-      let response = await fetch(ENDPOINT_LOCAL, {
+      let response = await fetch(ENDPOINT_PHP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiPayload)
       }).catch(() => null);
 
       if (!response || !response.ok) {
-        response = await fetch(ENDPOINT_PHP, {
+        response = await fetch(ENDPOINT_LOCAL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(apiPayload)
