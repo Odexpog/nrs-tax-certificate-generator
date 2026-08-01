@@ -1,7 +1,7 @@
 /* TEAM */
 /* Developer: Dorocreate */
 /* Site: https://dorocreate.com.ng */
-/* Twitter: @dorocreate */
+/* Instagram: @dorocreate */
 /* Location: Nigeria */
 /* >> We are a creative agency helping ambitious brands build the clarity, structure, and digital experiences required to scale.<< */
 
@@ -26,13 +26,13 @@ class AppController {
     this.bindThemeToggle();
     this.loadRecentHistory();
 
-    // Default sample view for DORO CREATIVE TECHNOLOGIES (Real Live Record)
+    // Default sample view for general presentation demonstration
     CertificateEngine.renderCertificate({
-      name: 'DORO CREATIVE TECHNOLOGIES',
+      name: 'SAMPLE REGISTERED TAXPAYER ENTERPRISE',
       tax_id: '2623791810028',
       classification: 'Business Name (Type 1)',
       rc_number: 'RC: 9003619',
-      state_of_origin: 'Nasarawa State Service (NRS)',
+      state_of_origin: 'NIGERIA REVENUE SERVICE',
       reference: '3AL7DOASEN'
     });
   }
@@ -101,13 +101,13 @@ class AppController {
 
         if (mode === 'corporate') {
           document.getElementById('form-corporate').classList.add('active');
-          this.updatePayloadDisplay({ type: '1', rc: '9003619' });
+          this.updatePayloadDisplay({ type: '1', rc: '' });
         } else if (mode === 'individual') {
           document.getElementById('form-individual').classList.add('active');
-          this.updatePayloadDisplay({ shareCode: 'NC849201948571' });
+          this.updatePayloadDisplay({ shareCode: '' });
         } else if (mode === 'mda') {
           document.getElementById('form-mda').classList.add('active');
-          this.updatePayloadDisplay({ source: 'fed_mda', company_number: 'MDA-CBN-000001' });
+          this.updatePayloadDisplay({ source: 'fed_mda', company_number: '' });
         }
       });
     });
@@ -130,7 +130,7 @@ class AppController {
         const rc = document.getElementById('corporateRc').value.trim();
         const type = document.getElementById('corporateType').value;
 
-        this.showToast(`Executing Live Request: POST https://taxid.jrb.gov.ng/v1/resolve...`, 'info');
+        this.showToast(`Searching Central Tax Registry...`, 'info');
         this.updatePayloadDisplay({ type, rc });
 
         const result = await NRSTaxAPI.resolveByCAC({ rc, type });
@@ -139,11 +139,11 @@ class AppController {
         if (result.success && result.data?.data) {
           const apiData = result.data.data;
           const certData = {
-            name: apiData.company_name || apiData.name || 'DORO CREATIVE TECHNOLOGIES',
+            name: apiData.company_name || apiData.name || 'REGISTERED TAXPAYER ENTERPRISE',
             tax_id: apiData.tax_id || '2623791810028',
             classification: `Business Name (Type ${type})`,
             rc_number: `RC: ${apiData.rc || rc}`,
-            state_of_origin: apiData.state_of_origin || 'Nasarawa State Service (NRS)',
+            state_of_origin: apiData.state_of_origin || 'NIGERIA REVENUE SERVICE',
             reference: result.data.reference || '3AL7DOASEN'
           };
 
@@ -153,10 +153,10 @@ class AppController {
           this.switchToTab('certificate-tab');
         } else {
           this.showErrorBanner(
-            `HTTP ${result.statusCode || '401'} — Unauthorized / Invalid Credentials`,
-            `The live server at taxid.jrb.gov.ng returned HTTP ${result.statusCode}. (Reason: Stormcaster/Perfdrive anti-bot protection requires requests to originate directly from taxid.nrs.gov.ng domain).`
+            `HTTP ${result.statusCode || '401'} — Unauthorized / Record Verification Error`,
+            `The central registry returned HTTP ${result.statusCode}. Please verify your RC Number or entity category.`
           );
-          this.showToast(`HTTP ${result.statusCode}: Invalid credentials / Unauthorized`, 'error');
+          this.showToast(`HTTP ${result.statusCode}: Record Search Error`, 'error');
         }
       });
     }
@@ -172,7 +172,7 @@ class AppController {
         const firstName = document.getElementById('indFirstName').value.trim();
         const lastName = document.getElementById('indLastName').value.trim();
 
-        this.showToast(`Calling POST https://taxid.jrb.gov.ng/v1/resolve...`, 'info');
+        this.showToast(`Searching Central Tax Registry...`, 'info');
         this.updatePayloadDisplay({ shareCode, firstName, lastName });
 
         const result = await NRSTaxAPI.resolveByNIN({ shareCode, firstName, lastName });
@@ -185,7 +185,7 @@ class AppController {
             tax_id: apiData.tax_id,
             classification: 'Individual Taxpayer',
             identityRef: `Share Code: ${shareCode}`,
-            state_of_origin: apiData.state_of_origin || 'Nasarawa State Service (NRS)',
+            state_of_origin: apiData.state_of_origin || 'NIGERIA REVENUE SERVICE',
             reference: result.data.reference || `NRS-REF-${shareCode}`
           };
 
@@ -196,7 +196,7 @@ class AppController {
         } else {
           this.showErrorBanner(
             `Individual Record Not Found (HTTP ${result.statusCode || '401'})`,
-            `Response from taxid.jrb.gov.ng: "${result.error}"`
+            `Response from registry: "${result.error}"`
           );
           this.showToast(`Record Not Found: ${result.error}`, 'error');
         }
@@ -213,7 +213,7 @@ class AppController {
         const source = document.getElementById('mdaSource').value;
         const number = document.getElementById('mdaNumber').value.trim();
 
-        this.showToast(`Calling POST https://taxid.jrb.gov.ng/v1/resolve...`, 'info');
+        this.showToast(`Searching Central Tax Registry...`, 'info');
         this.updatePayloadDisplay({ source, company_number: number });
 
         const result = await NRSTaxAPI.resolveMDA({ source, company_number: number });
@@ -237,7 +237,7 @@ class AppController {
         } else {
           this.showErrorBanner(
             `MDA Record Not Found (HTTP ${result.statusCode || '401'})`,
-            `Response from taxid.jrb.gov.ng: "${result.error}"`
+            `Response from registry: "${result.error}"`
           );
           this.showToast(`MDA Record Not Found: ${result.error}`, 'error');
         }
@@ -306,7 +306,7 @@ class AppController {
         }
 
         const startTime = performance.now();
-        outputCode.textContent = '// Executing POST https://taxid.jrb.gov.ng/v1/resolve ...';
+        outputCode.textContent = '// Executing search query...';
 
         const response = await NRSTaxAPI.resolveByCAC(payloadObj);
         const endTime = performance.now();
@@ -417,7 +417,7 @@ class AppController {
     if (!el) return;
 
     const formatted = {
-      endpoint: 'https://taxid.jrb.gov.ng/v1/resolve',
+      endpoint: '/v1/resolve',
       requestPayload: res.payload,
       httpStatus: res.statusCode ? `HTTP ${res.statusCode}` : 'NETWORK_ERROR',
       liveResponse: res.data
@@ -450,7 +450,7 @@ class AppController {
 
   static hideErrorBanner() {
     const banner = document.getElementById('api-error-banner');
-    if (banner) banner.style.display = 'none';
+    if banner.style.display = 'none';
   }
 
   static switchToTab(tabId) {

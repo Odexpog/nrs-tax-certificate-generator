@@ -14,6 +14,9 @@ Location: Nigeria
   <title>NRS Tax Certificate Generator & Retrieval Portal | Federal Republic of Nigeria</title>
   <meta name="description" content="Official Tax Identification Certificate Generator and Retrieval Portal for Nigeria Revenue Service (NRS).">
   
+  <!-- FAVICON FROM LOGO SVG -->
+  <link rel="icon" type="image/svg+xml" href="assets/svg/nrs-logo.svg">
+
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +32,7 @@ Location: Nigeria
 </head>
 <body class="dark-theme">
 
-  <!-- SLEEK TOP NAVIGATION HEADER (NO PULSATING DOTS) -->
+  <!-- SLEEK TOP NAVIGATION HEADER -->
   <header class="app-header no-print">
     <div class="header-container">
       
@@ -131,7 +134,7 @@ Location: Nigeria
               <label for="corporateRc" class="form-label">CAC Registration / RC Number <span class="required">*</span></label>
               <div class="input-wrapper">
                 <i class="fa-solid fa-hashtag input-icon"></i>
-                <input type="text" id="corporateRc" class="form-input" placeholder="e.g. 9003619 or RC1849204" value="9003619" required>
+                <input type="text" id="corporateRc" class="form-input" placeholder="e.g. 9003619 or RC1849204" required>
               </div>
             </div>
 
@@ -242,7 +245,7 @@ Location: Nigeria
         <!-- SIDEBAR RECENT HISTORY & PRESET -->
         <div class="sidebar-column">
           
-          <!-- VERIFIED SAMPLE PRESET -->
+          <!-- SAMPLE TAXPAYER PRESET -->
           <div class="glass-card presets-card">
             <div class="card-header compact">
               <div class="card-header-icon sm">
@@ -250,14 +253,14 @@ Location: Nigeria
               </div>
               <div>
                 <h3 class="card-title text-sm">Sample Taxpayer Record</h3>
-                <p class="card-desc text-xs">Test search with a registered company record</p>
+                <p class="card-desc text-xs">Test search with a sample registered company record</p>
               </div>
             </div>
             <div class="preset-buttons vertical">
               <button class="preset-chip-full" id="preset-live-doro-btn">
                 <i class="fa-solid fa-building-flag text-emerald"></i>
                 <div>
-                  <div class="preset-title">DORO CREATIVE TECHNOLOGIES</div>
+                  <div class="preset-title">SAMPLE CORPORATE ENTERPRISE</div>
                   <div class="preset-sub">RC: 9003619 • Type: 1 (Business Name)</div>
                 </div>
               </button>
@@ -324,12 +327,9 @@ Location: Nigeria
     <!-- TAB 2: 100% EXACT OFFICIAL LANDSCAPE CERTIFICATE PREVIEW (PDF REPLICA) -->
     <section class="tab-pane" id="certificate-tab">
       
-      <!-- TOOLBAR ABOVE CERTIFICATE -->
+      <!-- TOOLBAR ABOVE CERTIFICATE (REMOVED "OFFICIAL TEMPLATE MATCH" BADGE TEXT) -->
       <div class="cert-toolbar no-print">
         <div class="toolbar-left">
-          <span class="cert-status-badge verified">
-            <i class="fa-solid fa-circle-check"></i> Official Template Match
-          </span>
           <span class="cert-ref-label">Ref: <strong id="toolbar-ref-code">3AL7DOASEN</strong></span>
         </div>
         <div class="toolbar-right">
