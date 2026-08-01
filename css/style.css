@@ -106,7 +106,7 @@ code, pre {
 .header-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem; /* Matches app-main-content 1.5rem padding */
+  padding: 0 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,47 +174,11 @@ code, pre {
   box-shadow: 0 4px 12px rgba(200, 59, 31, 0.35);
 }
 
-.badge-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--color-nrs-green-mint);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--color-nrs-green-mint);
-}
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   flex-shrink: 0;
-}
-
-.api-status-chip {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-md);
-  font-size: 0.75rem;
-  font-weight: 700;
-  background: rgba(0, 230, 118, 0.1);
-  border: 1px solid rgba(0, 230, 118, 0.3);
-  color: var(--color-nrs-green-mint);
-  white-space: nowrap;
-}
-
-.status-indicator {
-  width: 7px;
-  height: 7px;
-  background: var(--color-nrs-green-mint);
-  border-radius: 50%;
-  animation: pulse-ring 1.8s infinite;
-}
-
-@keyframes pulse-ring {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
-  70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
 }
 
 .btn-icon-theme {
@@ -238,7 +202,6 @@ code, pre {
 @media (max-width: 768px) {
   .nav-btn span { display: none; }
   .nav-btn { padding: 0.5rem 0.75rem; }
-  .status-text { display: none; }
 }
 
 /* ==========================================================================
@@ -495,7 +458,7 @@ code, pre {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Form Controls */
+/* Form Controls & Consent Disclaimer */
 .resolution-form { display: none; flex-direction: column; gap: 1.2rem; }
 .resolution-form.active { display: flex; }
 
@@ -527,6 +490,36 @@ code, pre {
 }
 
 .input-hint { font-size: 0.75rem; color: var(--text-muted); }
+
+/* Consent Checkbox */
+.consent-group {
+  margin-top: 0.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.consent-checkbox-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.consent-checkbox {
+  width: 17px;
+  height: 17px;
+  margin-top: 0.1rem;
+  accent-color: var(--color-nrs-red);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.consent-text {
+  line-height: 1.45;
+  font-weight: 500;
+}
 
 .btn {
   padding: 0.75rem 1.25rem;
@@ -794,6 +787,10 @@ body.light-theme .form-textarea {
 
 body.light-theme .input-icon {
   color: #6B7280;
+}
+
+body.light-theme .consent-checkbox-wrapper {
+  color: #4B5563;
 }
 
 body.light-theme .preset-chip-full {

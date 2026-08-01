@@ -5,7 +5,7 @@
 Developer: Dorocreate
 Site: https://dorocreate.com.ng
 Twitter: @dorocreate
-Location: Nigeria
+Location: Nigeria */
 >> We are a creative agency helping ambitious brands build the clarity, structure, and digital experiences required to scale.<<
 -->
 <head>
@@ -29,7 +29,7 @@ Location: Nigeria
 </head>
 <body class="dark-theme">
 
-  <!-- SLEEK SINGLE-LINE TOP NAVIGATION HEADER -->
+  <!-- SLEEK TOP NAVIGATION HEADER (NO PULSATING DOTS) -->
   <header class="app-header no-print">
     <div class="header-container">
       
@@ -44,7 +44,7 @@ Location: Nigeria
           <i class="fa-solid fa-house"></i> <span>Home</span>
         </button>
         <button class="nav-btn" data-tab="certificate-tab" id="view-cert-nav-btn">
-          <i class="fa-solid fa-award"></i> <span>Certificate</span> <span class="badge-dot" id="cert-ready-dot" style="display:none;"></span>
+          <i class="fa-solid fa-award"></i> <span>Certificate</span>
         </button>
         <button class="nav-btn" data-tab="verify-tab">
           <i class="fa-solid fa-shield-halved"></i> <span>Verify</span>
@@ -52,10 +52,6 @@ Location: Nigeria
       </nav>
 
       <div class="header-actions">
-        <div class="api-status-chip online" title="Connected to Central Tax Registry">
-          <span class="status-indicator"></span>
-          <span class="status-text">Live Gateway</span>
-        </div>
         <button class="btn-icon-theme" id="theme-toggle-btn" title="Toggle Light/Dark Theme">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -150,6 +146,14 @@ Location: Nigeria
               </select>
             </div>
 
+            <!-- CONSENT DISCLAIMER ABOVE BUTTON -->
+            <div class="form-group consent-group">
+              <label class="consent-checkbox-wrapper">
+                <input type="checkbox" class="consent-checkbox" required checked>
+                <span class="consent-text">I hereby consent to the processing of my information for tax-related identity verification.</span>
+              </label>
+            </div>
+
             <div class="form-actions">
               <button type="submit" class="btn btn-primary btn-lg full-width" id="btn-fetch-corporate">
                 <i class="fa-solid fa-award"></i> Fetch Tax ID & Generate Certificate
@@ -180,6 +184,14 @@ Location: Nigeria
               </div>
             </div>
 
+            <!-- CONSENT DISCLAIMER ABOVE BUTTON -->
+            <div class="form-group consent-group">
+              <label class="consent-checkbox-wrapper">
+                <input type="checkbox" class="consent-checkbox" required checked>
+                <span class="consent-text">I hereby consent to the processing of my information for tax-related identity verification.</span>
+              </label>
+            </div>
+
             <div class="form-actions">
               <button type="submit" class="btn btn-primary btn-lg full-width" id="btn-fetch-individual">
                 <i class="fa-solid fa-award"></i> Fetch Tax ID & Generate Certificate
@@ -208,6 +220,14 @@ Location: Nigeria
                 <i class="fa-solid fa-landmark input-icon"></i>
                 <input type="text" id="mdaNumber" class="form-input" placeholder="e.g. MDA-CBN-000001" required>
               </div>
+            </div>
+
+            <!-- CONSENT DISCLAIMER ABOVE BUTTON -->
+            <div class="form-group consent-group">
+              <label class="consent-checkbox-wrapper">
+                <input type="checkbox" class="consent-checkbox" required checked>
+                <span class="consent-text">I hereby consent to the processing of my information for tax-related identity verification.</span>
+              </label>
             </div>
 
             <div class="form-actions">
