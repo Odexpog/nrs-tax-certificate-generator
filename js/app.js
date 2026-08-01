@@ -450,7 +450,7 @@ class AppController {
 
   static hideErrorBanner() {
     const banner = document.getElementById('api-error-banner');
-    if banner.style.display = 'none';
+    if (banner) banner.style.display = 'none';
   }
 
   static switchToTab(tabId) {
